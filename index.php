@@ -14,8 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 function register_form_widget( $widgets_manager ) {
 
 	require_once( __DIR__ . '/widgets/form-widget.php' );
+	require_once( __DIR__ . '/widgets/logout.php' );
 
 	$widgets_manager->register( new \Elementor_form_Widget() );
+	$widgets_manager->register( new \Elementor_logout_Widget() );
 
 }
 add_action( 'elementor/widgets/register', 'register_form_widget' );
