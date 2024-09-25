@@ -10,14 +10,17 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; 
 }
+require_once plugin_dir_path( __FILE__ ) . 'ajax/ajax-handle-form.php';
 
 function register_form_widget( $widgets_manager ) {
 
 	require_once( __DIR__ . '/widgets/form-widget.php' );
 	require_once( __DIR__ . '/widgets/logout.php' );
+	require_once( __DIR__ . '/widgets/send.php' );
 
 	$widgets_manager->register( new \Elementor_form_Widget() );
 	$widgets_manager->register( new \Elementor_logout_Widget() );
+	$widgets_manager->register( new \Elementor_send_message_Widget() );
 
 }
 add_action( 'elementor/widgets/register', 'register_form_widget' );
@@ -37,3 +40,11 @@ function elementor_form_widget_categories( $elements_manager ) {
 	);
 }
 add_action( 'elementor/elements/categories_registered', 'elementor_form_widget_categories' );
+
+function my_widgets_editor_scripts(){
+	wp_enqueue_script( 'custom_main_js', plugin_dir_url( __FILE__ ).'assets/js/main.js', array('jquery'),null,'true');
+	wp_localize_script('custom_main_js', 'ajaxurl', array(
+		'url' => admin_url('admin-ajax.php'),
+	));
+}
+add_action( 'elementor/frontend/after_enqueue_scripts', 'my_widgets_editor_scripts' );
